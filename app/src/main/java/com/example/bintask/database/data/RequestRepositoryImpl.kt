@@ -1,5 +1,7 @@
 package com.example.bintask.database.data
 
+import android.util.Log
+
 class RequestRepositoryImpl(private val requestLocalSource: RequestLocalSource) :
     RequestRepository {
     override suspend fun create(model: RequestModel) {

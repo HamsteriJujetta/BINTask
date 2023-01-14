@@ -3,6 +3,7 @@ package com.example.bintask
 import android.app.Application
 import com.example.bintask.database.di.databaseModule
 import com.example.bintask.di.appModule
+import com.example.bintask.network.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,7 +15,7 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(appModule, databaseModule)
+            modules(appModule, databaseModule, networkModule)
         }
     }
 

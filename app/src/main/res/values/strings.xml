@@ -5,4 +5,16 @@
     <string name="et_BIN_caption">BIN</string>
 
     <string name="OK_caption">OK</string>
+
+    <string name="scheme_caption">SCHEME / NETWORK</string>
+    <string name="brand_caption">BRAND</string>
+    <string name="card_number_caption">CARD NUMBER</string>
+    <string name="length_caption">LENGTH</string>
+    <string name="luhn_caption">LUHN</string>
+    <string name="type_caption">TYPE</string>
+    <string name="prepaid_caption">PREPAID</string>
+    <string name="country_caption">COUNTRY</string>
+    <string name="bank_caption">BANK</string>
+
+    <string name="default_text">Default text</string>
 </resources>

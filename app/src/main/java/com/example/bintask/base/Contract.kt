@@ -1,23 +1,25 @@
 package com.example.bintask.base
 
 import com.example.bintask.database.data.RequestModel
+import com.example.bintask.network.data.models.BINInfoModel
 
 data class ViewState(
     val BIN: String,
+    val binInfo: BINInfoModel,
     val prevRequests: List<RequestModel>,
-    val isError: Boolean
+    val errorOnRequests: Boolean,
+    val errorOnBINInfo: Boolean
 )
 
 
 sealed class UiEvent() : Event {
-    data class OnLoadBINInfoClicked(val bin: String) : UiEvent()
+    data class OnLoadBINInfoClicked(val BIN: String) : UiEvent()
 }
 
 
 sealed class DataEvent() : Event {
-    //object OnLoadBINInfo : DataEvent()
-    //object OnLoadBINInfoFail : DataEvent()
-    //data class OnLoadBINInfoSuccess() : DataEvent()
+    object OnLoadBINInfoFail : DataEvent()
+    data class OnLoadBINInfoSuccess(val binInfo: BINInfoModel) : DataEvent()
 
     object OnLoadPreviousRequests : DataEvent()
     object OnLoadPreviousRequestsFail : DataEvent()
