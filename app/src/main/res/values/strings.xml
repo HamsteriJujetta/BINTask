@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BINTask</string>
+
+    <string name="tv_BIN_caption">Enter BIN:</string>
+    <string name="et_BIN_caption">BIN</string>
+
+    <string name="OK_caption">OK</string>
 </resources>
