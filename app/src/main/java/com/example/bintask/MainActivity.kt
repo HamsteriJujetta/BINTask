@@ -2,7 +2,6 @@ package com.example.bintask
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bintask.ui.MainFragment
@@ -35,23 +34,23 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        //Log.d("Hamster", "onRequestPermissionsResult")
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_CALL_PHONE -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission granted
-                    //Log.d("Hamster", "permission granted")
-                    //doThePhoneCall()
                     val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
                     if (fragment is MainFragment) {
                         fragment.doThePhoneCall()
                     } else {
-                        //Log.d("Hamster", "failed to get current fragment")
+                        Toast.makeText(
+                            this,
+                            "Failed to make a call",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 } else {
                     // permission denied
-                    //Log.d("Hamster", "permission denied")
                     Toast.makeText(
                         this,
                         "Application needs your permission to make a call",

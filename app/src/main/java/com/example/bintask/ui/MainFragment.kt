@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -105,7 +104,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         Manifest.permission.CALL_PHONE
                     ) != PackageManager.PERMISSION_GRANTED) {
                     // no permission yet, ask for it
-                    //Log.d("Hamster", "ask for permission")
                     ActivityCompat.requestPermissions(
                         requireActivity(),
                         arrayOf(Manifest.permission.CALL_PHONE),
@@ -113,7 +111,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     )
                 } else {
                     // already have the permission
-                    //Log.d("Hamster", "already have permission")
                     doThePhoneCall()
                 }
             }
@@ -124,16 +121,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun render(viewState: ViewState) {
         if (viewState.errorOnBINInfo) {
             setFieldsInformation(null)
-            /*Toast.makeText(
-                requireActivity().applicationContext,
-                "Failed to get BIN information",
-                Toast.LENGTH_LONG
-            ).show()*/
             latitude = null
             longitude = null
             url = ""
         } else {
-            //Log.d("Hamster render", "${viewState.binInfo.toString()}")
             setFieldsInformation(viewState.binInfo)
         }
         etBIN.setText(viewState.BIN)
@@ -150,17 +141,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         val countryText = if (binInfo?.country == null) "?" else
-            "${binInfo?.country?.emoji ?: "?"} ${binInfo?.country?.name ?: "?"}"
+            "${binInfo.country.emoji ?: "?"} ${binInfo.country.name ?: "?"}"
         tvCountry.text = countryText
 
-        var coordinatesText: String
+        val coordinatesText: String
         if (binInfo?.country == null) {
             coordinatesText = "?"
         } else {
-            latitude = binInfo?.country?.latitude?.toDouble()
-            longitude = binInfo?.country?.longitude?.toDouble()
+            latitude = binInfo.country.latitude?.toDouble()
+            longitude = binInfo.country.longitude?.toDouble()
             coordinatesText =
-                "(latitude: ${binInfo?.country?.latitude ?: "?"}\nlongitude: ${binInfo?.country?.longitude ?: "?"})"
+                "(latitude: ${binInfo.country.latitude ?: "?"}\nlongitude: ${binInfo.country.longitude ?: "?"})"
         }
         tvCoordinates.text = coordinatesText
 
@@ -172,12 +163,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         val bankNameCityText = if (binInfo?.bank == null) "?" else
-            "${binInfo?.bank?.name ?: "?"}, ${binInfo?.bank?.city ?: "?"}"
+            "${binInfo.bank.name ?: "?"}, ${binInfo.bank.city ?: "?"}"
         tvBankNameCity.text = bankNameCityText
 
         if (binInfo?.bank?.url != null) {
-            tvUrl.text = binInfo?.bank?.url
-            url = binInfo?.bank?.url
+            tvUrl.text = binInfo.bank.url
+            url = binInfo.bank.url
         } else {
             tvUrl.text = "?"
             url = ""
@@ -186,7 +177,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     fun doThePhoneCall() {
-        //Log.d("Hamster", "doThePhoneCall")
         try {
             val intent = Intent(Intent.ACTION_CALL)
             val phoneToCall = "tel:${tvPhone.text}"

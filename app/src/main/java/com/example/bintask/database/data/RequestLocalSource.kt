@@ -1,8 +1,5 @@
 package com.example.bintask.database.data
 
-import com.example.bintask.database.data.RequestDao
-import com.example.bintask.database.data.RequestEntity
-
 class RequestLocalSource(private val requestDao: RequestDao) {
 
     suspend fun create(entity: RequestEntity) {

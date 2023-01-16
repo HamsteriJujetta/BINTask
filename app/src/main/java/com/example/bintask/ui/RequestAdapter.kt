@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bintask.R
 import com.example.bintask.database.data.RequestModel
 
-class RequestAdapter() :
-    RecyclerView.Adapter<RequestAdapter.ViewHolder>() {
+class RequestAdapter : RecyclerView.Adapter<RequestAdapter.ViewHolder>() {
 
     private var requests:List<RequestModel> = emptyList()
 

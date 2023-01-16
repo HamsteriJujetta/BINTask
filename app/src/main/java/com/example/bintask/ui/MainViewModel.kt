@@ -1,6 +1,5 @@
 package com.example.bintask.ui
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.bintask.base.DataEvent
 import com.example.bintask.base.Event
@@ -9,10 +8,6 @@ import com.example.bintask.base.ViewState
 import com.example.bintask.database.data.RequestInteractor
 import com.example.bintask.database.data.RequestModel
 import com.example.bintask.network.data.NetworkInteractor
-import com.example.bintask.network.data.models.BINBank
-import com.example.bintask.network.data.models.BINCountry
-import com.example.bintask.network.data.models.BINInfoModel
-import com.example.bintask.network.data.models.BINNumber
 import com.example.urgenttask.base.BaseViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -42,8 +37,6 @@ class MainViewModel(
             // interact with network, get information about BIN
             is UiEvent.OnLoadBINInfoClicked -> {
 
-                Log.d("Hamster", "OnLoadBINInfoClicked, recentBIN = ${event.BIN}")
-
                 val formatter = SimpleDateFormat("dd.MM.yyyy (EEEE), HH:mm:ss")
                 formatter.timeZone = TimeZone.getTimeZone("Europe/Moscow")
                 val calendar = Calendar.getInstance()
@@ -54,7 +47,6 @@ class MainViewModel(
                     BIN = "BIN: ${event.BIN}",
                     requestDateTime = currentDateTime
                 )
-                //recentBIN = event.BIN
                 viewModelScope.launch {
                     requestInteractor.create(newRequest)
                     networkInteractor.getBINInfo(event.BIN).fold(

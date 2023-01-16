@@ -12,13 +12,13 @@ data class ViewState(
 )
 
 
-sealed class UiEvent() : Event {
+sealed class UiEvent : Event {
     data class OnLoadBINInfoClicked(val BIN: String) : UiEvent()
     object OnDeleteAllRequestsClicked : UiEvent()
 }
 
 
-sealed class DataEvent() : Event {
+sealed class DataEvent : Event {
     object OnLoadBINInfoFail : DataEvent()
     data class OnLoadBINInfoSuccess(val binInfo: BINInfoModel) : DataEvent()
 
