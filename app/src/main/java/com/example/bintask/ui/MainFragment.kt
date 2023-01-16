@@ -14,19 +14,15 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.bintask.MainActivity
 import com.example.bintask.R
 import com.example.bintask.base.UiEvent
 import com.example.bintask.base.ViewState
 import com.example.bintask.network.data.models.BINInfoModel
 import com.google.android.material.card.MaterialCardView
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import java.lang.Exception
 
 class MainFragment : Fragment(R.layout.fragment_main) {
-
-    companion object {
-        const val REQUEST_CALL_PHONE = 1
-    }
 
     private val viewModel: MainViewModel by activityViewModel()
 
@@ -107,45 +103,40 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 if (ContextCompat.checkSelfPermission(
                         requireActivity(),
                         Manifest.permission.CALL_PHONE
-                    )
-                    != PackageManager.PERMISSION_GRANTED
-                ) {
-                    Log.d("Hamster", "ask for permission")
+                    ) != PackageManager.PERMISSION_GRANTED) {
+                    // no permission yet, ask for it
+                    //Log.d("Hamster", "ask for permission")
                     ActivityCompat.requestPermissions(
                         requireActivity(),
                         arrayOf(Manifest.permission.CALL_PHONE),
-                        REQUEST_CALL_PHONE
+                        MainActivity.REQUEST_CALL_PHONE
                     )
                 } else {
-                    // already have permission
-                    Log.d("Hamster", "already have permission")
+                    // already have the permission
+                    //Log.d("Hamster", "already have permission")
                     doThePhoneCall()
                 }
-                /*Toast.makeText(
-                    requireActivity().applicationContext,
-                    "PHONE APP",
-                    Toast.LENGTH_LONG
-                ).show()*/
             }
         }
+
     }
 
     private fun render(viewState: ViewState) {
         if (viewState.errorOnBINInfo) {
             setFieldsInformation(null)
-            Toast.makeText(
+            /*Toast.makeText(
                 requireActivity().applicationContext,
                 "Failed to get BIN information",
                 Toast.LENGTH_LONG
-            ).show()
+            ).show()*/
             latitude = null
             longitude = null
             url = ""
         } else {
-            Log.d("Hamster render", "${viewState.binInfo.toString()}") // TODO
+            //Log.d("Hamster render", "${viewState.binInfo.toString()}")
             setFieldsInformation(viewState.binInfo)
         }
-        //etBIN.setText(viewState.BIN)
+        etBIN.setText(viewState.BIN)
     }
 
     private fun setFieldsInformation(binInfo: BINInfoModel?) {
@@ -162,7 +153,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             "${binInfo?.country?.emoji ?: "?"} ${binInfo?.country?.name ?: "?"}"
         tvCountry.text = countryText
 
-        var coordinatesText = ""
+        var coordinatesText: String
         if (binInfo?.country == null) {
             coordinatesText = "?"
         } else {
@@ -187,43 +178,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         if (binInfo?.bank?.url != null) {
             tvUrl.text = binInfo?.bank?.url
             url = binInfo?.bank?.url
+        } else {
+            tvUrl.text = "?"
+            url = ""
         }
         tvPhone.text = binInfo?.bank?.phone ?: "?"
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            REQUEST_CALL_PHONE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission granted
-                    Log.d("Hamster", "permission granted")
-                    doThePhoneCall()
-                } else {
-                    // permission denied
-                    Log.d("Hamster", "permission denied")
-                    Toast.makeText(
-                        requireActivity().applicationContext,
-                        "Application needs your permission to make a call",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-            else -> {
-                Toast.makeText(
-                    requireActivity().applicationContext,
-                    "Unknown permission case",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
-    private fun doThePhoneCall() {
+    fun doThePhoneCall() {
+        //Log.d("Hamster", "doThePhoneCall")
         try {
             val intent = Intent(Intent.ACTION_CALL)
             val phoneToCall = "tel:${tvPhone.text}"
@@ -231,7 +194,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             startActivity(intent)
         } catch (e: Exception) {
             Toast.makeText(
-                requireActivity().applicationContext,
+                requireActivity(),
                 "Failed to make a phone call",
                 Toast.LENGTH_LONG
             ).show()

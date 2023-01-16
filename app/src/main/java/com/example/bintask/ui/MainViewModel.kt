@@ -16,8 +16,6 @@ import com.example.bintask.network.data.models.BINNumber
 import com.example.urgenttask.base.BaseViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MainViewModel(
@@ -43,15 +41,20 @@ class MainViewModel(
 
             // interact with network, get information about BIN
             is UiEvent.OnLoadBINInfoClicked -> {
+
+                Log.d("Hamster", "OnLoadBINInfoClicked, recentBIN = ${event.BIN}")
+
                 val formatter = SimpleDateFormat("dd.MM.yyyy (EEEE), HH:mm:ss")
+                formatter.timeZone = TimeZone.getTimeZone("Europe/Moscow")
                 val calendar = Calendar.getInstance()
-                calendar.add(Calendar.HOUR, 3)
                 val currentDateTime = formatter.format(calendar.time)
+
                 val newRequest = RequestModel(
                     id = UUID.randomUUID().toString(),
                     BIN = "BIN: ${event.BIN}",
                     requestDateTime = currentDateTime
                 )
+                //recentBIN = event.BIN
                 viewModelScope.launch {
                     requestInteractor.create(newRequest)
                     networkInteractor.getBINInfo(event.BIN).fold(
@@ -104,28 +107,5 @@ class MainViewModel(
             else -> return null
         }
     }
-
-    private fun getDefaultBINInfoModel() = BINInfoModel(
-        number = BINNumber(length = null, luhn = null),
-        scheme = null,
-        type = null,
-        brand = null,
-        prepaid = false,
-        country = BINCountry(
-            numeric = "",
-            alpha2 = "",
-            name = "",
-            emoji = "",
-            currency = "",
-            latitude = 0,
-            longitude = 0
-        ),
-        bank = BINBank(
-            name = "",
-            url = "",
-            phone = "",
-            city = ""
-        )
-    )
 
 }
