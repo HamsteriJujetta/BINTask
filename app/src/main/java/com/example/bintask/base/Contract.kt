@@ -5,7 +5,7 @@ import com.example.bintask.network.data.models.BINInfoModel
 
 data class ViewState(
     val BIN: String,
-    val binInfo: BINInfoModel,
+    val binInfo: BINInfoModel?,
     val prevRequests: List<RequestModel>,
     val errorOnRequests: Boolean,
     val errorOnBINInfo: Boolean
@@ -14,6 +14,7 @@ data class ViewState(
 
 sealed class UiEvent() : Event {
     data class OnLoadBINInfoClicked(val BIN: String) : UiEvent()
+    object OnDeleteAllRequestsClicked : UiEvent()
 }
 
 

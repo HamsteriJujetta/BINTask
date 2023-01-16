@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class BINInfoModel(
     @SerializedName("number")
-    val number: BINNumber,
+    val number: BINNumber?,
     @SerializedName("scheme")
-    val scheme: String,
+    val scheme: String?,
     @SerializedName("type")
-    val type: String,
+    val type: String?,
     @SerializedName("brand")
-    val brand: String,
+    val brand: String?,
     @SerializedName("prepaid")
-    val prepaid: Boolean,
+    val prepaid: Boolean?,
     @SerializedName("country")
-    val country: BINCountry,
+    val country: BINCountry?,
     @SerializedName("bank")
-    val bank: BINBank
+    val bank: BINBank?
 )

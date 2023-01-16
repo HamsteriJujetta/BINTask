@@ -15,7 +15,10 @@ import com.example.bintask.network.data.models.BINInfoModel
 import com.example.bintask.network.data.models.BINNumber
 import com.example.urgenttask.base.BaseViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MainViewModel(
     private val requestInteractor: RequestInteractor, // for interacting with database
@@ -29,7 +32,7 @@ class MainViewModel(
     override fun initialViewState(): ViewState =
         ViewState(
             BIN = "",
-            binInfo = getDefaultBINInfoModel(),
+            binInfo = null,
             prevRequests = emptyList(),
             errorOnRequests = false,
             errorOnBINInfo = false
@@ -40,13 +43,16 @@ class MainViewModel(
 
             // interact with network, get information about BIN
             is UiEvent.OnLoadBINInfoClicked -> {
+                val formatter = SimpleDateFormat("dd.MM.yyyy (EEEE), HH:mm:ss")
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.HOUR, 3)
+                val currentDateTime = formatter.format(calendar.time)
                 val newRequest = RequestModel(
                     id = UUID.randomUUID().toString(),
-                    BIN = event.BIN,
-                    requestDateTime = "default date" // TODO
+                    BIN = "BIN: ${event.BIN}",
+                    requestDateTime = currentDateTime
                 )
                 viewModelScope.launch {
-                    requestInteractor.clearDB()
                     requestInteractor.create(newRequest)
                     networkInteractor.getBINInfo(event.BIN).fold(
                         onError = {
@@ -66,6 +72,12 @@ class MainViewModel(
             }
             is DataEvent.OnLoadBINInfoSuccess -> {
                 return previousState.copy(binInfo = event.binInfo, errorOnBINInfo = false)
+            }
+            is UiEvent.OnDeleteAllRequestsClicked -> {
+                viewModelScope.launch {
+                    requestInteractor.clearDB()
+                }
+                return previousState.copy(prevRequests = emptyList())
             }
 
             // interact with database, get information about previous requests
@@ -94,10 +106,10 @@ class MainViewModel(
     }
 
     private fun getDefaultBINInfoModel() = BINInfoModel(
-        number = BINNumber(length = 0, luhn = false),
-        scheme = "",
-        type = "",
-        brand = "",
+        number = BINNumber(length = null, luhn = null),
+        scheme = null,
+        type = null,
+        brand = null,
         prepaid = false,
         country = BINCountry(
             numeric = "",

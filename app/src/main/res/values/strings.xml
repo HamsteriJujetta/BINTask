@@ -5,16 +5,19 @@
     <string name="et_BIN_caption">BIN</string>
 
     <string name="OK_caption">OK</string>
+    <string name="btn_previous_requests_caption">Previous requests</string>
+    <string name="btn_delete_requests_caption">Delete requests</string>
+    <string name="tv_previous_requests_caption">Your previous requests:</string>
 
     <string name="scheme_caption">SCHEME / NETWORK</string>
     <string name="brand_caption">BRAND</string>
     <string name="card_number_caption">CARD NUMBER</string>
-    <string name="length_caption">LENGTH</string>
-    <string name="luhn_caption">LUHN</string>
+    <string name="length_caption">  LENGTH</string>
+    <string name="luhn_caption">  LUHN</string>
     <string name="type_caption">TYPE</string>
     <string name="prepaid_caption">PREPAID</string>
     <string name="country_caption">COUNTRY</string>
     <string name="bank_caption">BANK</string>
 
-    <string name="default_text">Default text</string>
+    <string name="default_text">-</string>
 </resources>

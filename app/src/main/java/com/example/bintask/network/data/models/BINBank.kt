@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class BINBank(
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("url")
-    val url: String,
+    val url: String?,
     @SerializedName("phone")
-    val phone: String,
+    val phone: String?,
     @SerializedName("city")
-    val city: String
+    val city: String?
 )
